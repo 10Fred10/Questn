@@ -1,2 +1,2 @@
 # Questn
-Reward based deal-application
+Reward based mobile application for locals and travelers.
