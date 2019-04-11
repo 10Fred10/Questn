@@ -1,4 +1,4 @@
-//3 steps : 
+
 // 1 - requirements part
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -11,7 +11,7 @@ let usertSchema = new Schema ({
     email :    {type: String, required: true},
     birthDate :    {type: Date, required: true},
     gender :    {type: String, required: false},
-    password :    {type: String, required: true}
+    //password :    {type: String, required: true}
 });
 
 // 3 - export the model

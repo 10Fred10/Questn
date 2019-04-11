@@ -1,5 +1,5 @@
 const User = require('../models/user.model');
-//const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 exports.test = function (req, res) {
     res.send('Greetings from the Test controller!');
@@ -37,11 +37,11 @@ exports.createUser = function (req, res) {
         }
     );
 
-    //console.log('hey ! ' + cryptPassword(req.body.password));
-    
+    console.log('hey ! ' + user);
+
     user.save(function (err) {
         if (err) {
-            return next(err);
+            return next (err);
         }
         res.send('User Created successfully')
     })
