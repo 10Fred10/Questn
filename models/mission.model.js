@@ -11,6 +11,7 @@ let missionSchema = new Schema ({
     description :    {type: String, required: true},
     endingDate :    {type: Date, required: false},
     pictures :    {type: [String], required: false},
+    points : {type : String, required: true}
 });
 
 // 3 - export the model

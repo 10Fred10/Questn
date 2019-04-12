@@ -8,7 +8,8 @@ exports.createMission = function (req, res, next) {
                         location: req.body.location,
                         description: req.body.description,
                         endingDate: req.body.endingDate,
-                        pictures: req.body.pictures
+                        pictures: req.body.pictures,
+                        points : req.body.points
                         }
                 );
                 mission.save(function (err) {
