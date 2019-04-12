@@ -7,7 +7,7 @@ const mongoose = require ('mongoose');
 const app = express();
 
 //connect to the data base
-let dev_db_url = 'mongodb+srv://fred:Questn1994@questn-oe0yo.mongodb.net/QuestnDB?retryWrites=true';
+let dev_db_url = 'mongodb+srv:<database connection url here >';
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, {useNewUrlParser: true });
 mongoose.Promise = global.Promise;
