@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // 2 - user model part
-let usertSchema = new Schema ({
+let userSchema = new Schema ({
     //id :    {type: Number, required: true},
     firstName :    {type: String, required: true, max: 100},
     lastName :    {type: String, required: true, max: 100},
@@ -15,5 +15,5 @@ let usertSchema = new Schema ({
 });
 
 // 3 - export the model
-module.exports = mongoose.model('User', usertSchema , 'users');
+module.exports = mongoose.model('User', userSchema , 'users');
 

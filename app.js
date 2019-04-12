@@ -1,6 +1,7 @@
 const express = require ('express');
 const bodyParser = require ('body-parser');
 const user = require ('./routes/user.route');
+const mission = require ('./routes/mission.route');
 const mongoose = require ('mongoose');
 
 // initialize the express app
@@ -30,3 +31,4 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // link the /users in url with the user.route
 app.use('/users', user);
+app.use('/missions', mission);
