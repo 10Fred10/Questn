@@ -1,14 +1,10 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
-exports.test = function (req, res) {
-    res.send('Greetings from the Test controller!');
-};
+/********************* CREATE A USER *********************/
+exports.createUser = function (req, res, next) {
 
-exports.createUser = function (req, res) {
-
-    //hashing the entred password before saving it .
-
+        //hashing the entred password before saving it .
         bcrypt.genSalt(10, function(err, salt) {
             bcrypt.hash(req.body.password, salt, function(err, hash) {               
                 let user = new User(
@@ -22,8 +18,9 @@ exports.createUser = function (req, res) {
                         }
                 );
                 user.save(function (err) {
-                    if (err) {
-                        return next (err);
+                    if (err)  {
+                        res.send("An Error occurred while handling your request, please verify your input");
+                        return next(err);
                     }
                     res.send('User Created successfully')
                 });
@@ -31,16 +28,56 @@ exports.createUser = function (req, res) {
         });
 };
 
-exports.userDetails = function (req, res) {
+/********************* READ A USER'S DETAILS BY ID *********************/
+exports.readUser = function (req, res, next) {
     User.findById(req.params.id, function (err, user) {
-        if (err) return next(err);
+        if (err)  {
+            res.send("An Error occurred while handling your request, please verify your input");
+            return next(err);
+        }
         res.send(user);
     })
 }
 
-exports.deleteUser = function (req, res) {
+/********************* UPDATE A USER BY ID *********************/
+exports.updateUser = function (req,res,next) {
+
+    //Checks if the update contains a password
+    if (req.body.password == undefined) {
+
+        //Directly update the user's details
+        User.findByIdAndUpdate(req.params.id, {$set : req.body },function (err, user) { 
+            if (err)   {
+                res.send("An Error occurred while handling your request, please verify your input");
+                return next(err);
+            }
+            res.send('User udpated.');
+        });
+    }else { //Encrypt the password before updating it
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(req.body.password, salt, function(err, hash) {               
+                let tempUser = {$set : req.body} //Temporary user to hold entered details
+                tempUser.password = hash; //Update the password with the hash
+                User.findByIdAndUpdate(req.params.id, tempUser, function (err, user) {
+                    if (err) {
+                        res.send("An Error occurred while handling your request, please verify your input");
+                        return next(err);
+                    }
+                    res.send('User udpated.');
+                });
+            });
+        });
+    }
+    
+}
+
+/********************* DELETE A USER BY ID *********************/
+exports.deleteUser = function (req, res, next) {
     User.findByIdAndDelete(req.params.id, function (err) {
-        if(err) return next(err);
+        if(err) {
+            res.send("An Error occurred while handling your request, please verify your input");
+            return next(err);
+        }
         res.send("user deleted successfully! ");
     })
 }
