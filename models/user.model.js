@@ -11,9 +11,9 @@ let usertSchema = new Schema ({
     email :    {type: String, required: true},
     birthDate :    {type: Date, required: true},
     gender :    {type: String, required: false},
-    //password :    {type: String, required: true}
+    password :    {type: String, required: true}
 });
 
 // 3 - export the model
-module.exports = mongoose.model('User',usertSchema);
+module.exports = mongoose.model('User', usertSchema , 'users');
 
