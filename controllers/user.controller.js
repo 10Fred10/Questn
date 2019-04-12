@@ -30,3 +30,10 @@ exports.createUser = function (req, res) {
             });
         });
 };
+
+exports.userDetails = function (req, res) {
+    User.findById(req.params.id, function (err, user) {
+        if (err) return next(err);
+        res.send(user);
+    })
+}

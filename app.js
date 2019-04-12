@@ -28,5 +28,5 @@ app.listen(port, ()=> {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-// link the /users in url with the user object
+// link the /users in url with the user.route
 app.use('/users', user);
