@@ -37,3 +37,10 @@ exports.userDetails = function (req, res) {
         res.send(user);
     })
 }
+
+exports.deleteUser = function (req, res) {
+    User.findByIdAndDelete(req.params.id, function (err) {
+        if(err) return next(err);
+        res.send("user deleted successfully! ");
+    })
+}
