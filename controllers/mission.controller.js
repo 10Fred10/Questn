@@ -2,16 +2,7 @@ const Mission = require('../models/mission.model');
 
 /********************* CREATE A MISSION *********************/
 exports.createMission = function (req, res, next) {            
-                let mission = new Mission(
-                    {
-                        title: req.body.title,
-                        location: req.body.location,
-                        description: req.body.description,
-                        endingDate: req.body.endingDate,
-                        pictures: req.body.pictures,
-                        points : req.body.points
-                        }
-                );
+                let mission = new Mission(req.body);
                 mission.save(function (err) {
                     if (err)  {
                         res.send("An Error occurred while handling your request, please verify your input");
