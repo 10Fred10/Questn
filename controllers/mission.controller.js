@@ -1,4 +1,5 @@
 const Mission = require('../models/mission.model');
+
 /********************* CREATE A MISSION *********************/
 exports.createMission = function (req, res, next) {            
                 let mission = new Mission(req.body);

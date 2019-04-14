@@ -11,7 +11,8 @@ let userSchema = new Schema ({
     email :    {type: String, required: true},
     birthDate :    {type: Date, required: true},
     gender :    {type: String, required: false},
-    password :    {type: String, required: true}
+    password :    {type: String, required: true},
+    balance : {type : Number, required : false}
 });
 
 // 3 - export the model
