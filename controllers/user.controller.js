@@ -6,16 +6,29 @@ encryptPassword = pass => bcrypt.hashSync(pass, 10);
 
 /********************* CREATE A USER *********************/
 exports.createUser = function (req, res, next) {
-         //hashing the entred password before saving it .
-         let user = new User(req.body);
-         user.password = encryptPassword(req.body.password);
-         user.save(function (err) {
-             if (err)  {
-                 res.send("An Error occurred while handling your request, please verify your input");
-                 return next(err);
+    let userEmail = req.body.email.toLowerCase();
+    userEmail = userEmail.trim();
+         User.findOne({email: userEmail}, function(err, user){
+             if(user) {
+                console.log('User already exists !');
+                res.send ("User already exists ! ");
              }
-             res.send('User Created successfully')
+             else {
+                console.log('User doesn\'t exists !');
+                //hashing the entred password before saving it .
+                let user = new User(req.body);
+                user.password = encryptPassword(req.body.password);
+                user.balance = 0;
+                user.save(function (err) {
+                    if (err)  {
+                     res.send("An Error occurred while handling your request, please verify your input");
+                     return next(err);
+                     }
+                res.send('User Created successfully')
+                });  
+            }
          });
+        
 };
 
 /********************* READ A USER'S DETAILS BY ID *********************/
@@ -29,34 +42,57 @@ exports.readUser = function (req, res, next) {
     })
 }
 
+/********************* UPDATE A PASSWORD BY ID *********************/
+exports.updateUserPass = function (req, res, next) {
+    let newPassword = encryptPassword(req.body.password);
+    User.findByIdAndUpdate(req.params.id, {$set:{password: newPassword}},
+        function (err, user){ 
+            if (err) {
+                res.send("An Error occurred while handling your request, please verify your input");
+                return next(err);
+            }
+            res.send('Password udpated.');
+        }); 
+}
+
+/********************* UPDATE AN EMAIL BY ID *********************/
+exports.updateUserEmail = function (req, res, next) {
+    let userEmail = req.body.email.toLowerCase();
+    userEmail = userEmail.trim();
+    User.findOne({email: userEmail}, function(err, user){
+        if(user) {
+        res.send ("Email already exists ! ");
+        }
+        else {
+            User.findByIdAndUpdate(req.params.id, {$set:{email: userEmail}},
+                    function (err, user){ 
+                        if (err) {
+                            res.send("An Error occurred while handling your request, please verify your input");
+                            return next(err);
+                        }
+                        res.send('EMAIL udpated.');
+                    }); 
+        }
+    });
+}
+
 /********************* UPDATE A USER BY ID *********************/
 exports.updateUser = function (req,res,next) {
-
-    let tempUser = req.body; 
- 
-    if (req.body.password == undefined) { //Checks if the body contains a password
+    if (req.body.email || req.body.password ) {
+        res.send("error, can't update email / passord with this route");
+    }else {
+        let tempUser = req.body;    
         User.findByIdAndUpdate(req.params.id, tempUser,
-            function (err, user)
-            { 
-                if (err) {
-                    res.send("An Error occurred while handling your request, please verify your input");
-                    return next(err);
-                }
-                res.send('User udpated.');
-            });
-
-    }else {     //Encrypt the password before updating it
-                tempUser.password = encryptPassword(req.body.password);
-                User.findByIdAndUpdate(req.params.id, tempUser, function (err, user) {
+                function (err, user){ 
                     if (err) {
                         res.send("An Error occurred while handling your request, please verify your input");
                         return next(err);
                     }
                     res.send('User udpated.');
-                });
+                });  
     }
     
-}
+    } 
 
 /********************* DELETE A USER BY ID *********************/
 exports.deleteUser = function (req, res, next) {
