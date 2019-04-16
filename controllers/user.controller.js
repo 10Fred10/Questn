@@ -2,13 +2,7 @@ const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 
-
-function encryptPassword (pass) {
-    let hashedPass = "None";
-    const saltRounds = 10;
-    hashedPass = bcrypt.hashSync(pass, saltRounds);
-    return hashedPass; 
-}
+encryptPassword = pass => bcrypt.hashSync(pass, 10);
 
 /********************* CREATE A USER *********************/
 exports.createUser = function (req, res, next) {
