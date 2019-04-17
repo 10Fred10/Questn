@@ -1,5 +1,11 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+// Load input validation
+const validateRegisterInput = require("../validation/register.validator");
+const validateLoginInput = require("../validation/login.validator");
+
 
 encryptPassword = pass => bcrypt.hashSync(pass, 10);
 
@@ -119,6 +125,3 @@ exports.deleteUser = function(req, res, next) {
   });
 };
 
-/* exports.test = function(req, res, next) {
-  res.send("hello test");
-}; */
