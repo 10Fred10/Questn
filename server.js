@@ -4,9 +4,10 @@ const user = require("./routes/user.route");
 const mission = require("./routes/mission.route");
 const reward = require("./routes/reward.route");
 const mongoose = require("mongoose");
+const passport = require("passport");
 
 // initialize the express server
-const server = express();
+const app = express();
 
 //connect to the data base
 let dev_db_url = require("./config/keys").mongoURI;
@@ -24,15 +25,20 @@ let port = 1234;
 
 //listen to that port
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log("server is up and running on port " + port);
 });
 
 //bodyparser
-server.use(bodyParser.json());
-server.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Passport config
+require("./config/passport")(passport);
+// Passport middleware
+app.use(passport.initialize());
 
 // link the /users in url with the user.route
-server.use("/users", user);
-server.use("/missions", mission);
-server.use("/rewards", reward);
+app.use("/users", user);
+app.use("/missions", mission);
+app.use("/rewards", reward);

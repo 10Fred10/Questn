@@ -4,6 +4,7 @@ const userController = require("../controllers/user.controller");
 
 /********************* CRUD *********************/
 router.post("/register", userController.register);
+router.post("/login", userController.login);
 router.get("/:id", userController.readUser);
 router.put("/:id", userController.updateUser);
 router.put("/newPassword/:id/", userController.updateUserPass);
