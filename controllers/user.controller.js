@@ -9,8 +9,8 @@ const validateLoginInput = require("../validation/login.validator");
 const validateNewPassword = require("../validation/password.validator");
 const validateNewEmail = require("../validation/email.validator");
 
-/********************* REGISTER *********************/
-exports.login = function(req, res) {
+/********************* LOGIN *********************/
+exports.login = function (req, res) {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -39,7 +39,7 @@ exports.login = function(req, res) {
           payload,
           keys.secretOrKey,
           {
-            expiresIn: 31556926 // 1 year in seconds
+            expiresIn: 86400 // 24h in seconds
           },
           (err, token) => {
             res.json({
@@ -58,7 +58,7 @@ exports.login = function(req, res) {
 };
 
 /********************* REGISTER *********************/
-exports.register = function(req, res, next) {
+exports.register = function (req, res, next) {
   // Form validation
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
@@ -85,8 +85,8 @@ exports.register = function(req, res, next) {
 };
 
 /********************* READ A USER'S DETAILS BY ID *********************/
-exports.readUser = function(req, res, next) {
-  User.findById(req.params.id, function(err, user) {
+exports.readUser = function (req, res, next) {
+  User.findById(req.params.id, function (err, user) {
     if (err) {
       res.send(
         "An Error occurred while handling your request, please verify your input"
@@ -98,7 +98,7 @@ exports.readUser = function(req, res, next) {
 };
 
 /********************* UPDATE A PASSWORD BY ID *********************/
-exports.updateUserPass = function(req, res, next) {
+exports.updateUserPass = function (req, res, next) {
   // Form validation
   const { errors, isValid } = validateNewPassword(req.body);
   // Check validation
@@ -112,7 +112,7 @@ exports.updateUserPass = function(req, res, next) {
       User.findByIdAndUpdate(
         req.params.id,
         { $set: { password: hash } },
-        function(err, user) {
+        function (err, user) {
           if (err) {
             res.send(
               "An Error occurred while handling your request, please verify your input"
@@ -127,7 +127,7 @@ exports.updateUserPass = function(req, res, next) {
 };
 
 /********************* UPDATE AN EMAIL BY ID *********************/
-exports.updateUserEmail = function(req, res, next) {
+exports.updateUserEmail = function (req, res) {
   // Form validation
   const { errors, isValid } = validateNewEmail(req.body);
   // Check validation
@@ -137,21 +137,27 @@ exports.updateUserEmail = function(req, res, next) {
   let userEmail = req.body.email.toLowerCase();
   userEmail = userEmail.trim();
   //check if the email is unique
-  User.findOne({ email: userEmail }, function(err, user) {
+  User.findOne({ email: userEmail }, function (err, user) {
     if (user) {
       res.send("Email already exists ! ");
     } else {
       User.findByIdAndUpdate(
         req.params.id,
         { $set: { email: userEmail } },
-        function(err, user) {
+        function (err, user) {
           if (err) {
             res.send(
               "An Error occurred while handling your request, please verify your input"
             );
-            return next(err);
+          } else {
+            try {
+              name = user.firstName;
+              res.send(name + "'s EMAIL udpated.");
+            } catch (err) {
+              res.send("user doesn't exist");
+            }
           }
-          res.send("EMAIL udpated.");
+
         }
       );
     }
@@ -159,12 +165,12 @@ exports.updateUserEmail = function(req, res, next) {
 };
 
 /********************* UPDATE A USER BY ID *********************/
-exports.updateUser = function(req, res, next) {
+exports.updateUser = function (req, res, next) {
   if (req.body.email || req.body.password) {
     res.send("error, can't update email or passord with this route");
   } else {
     let tempUser = req.body;
-    User.findByIdAndUpdate(req.params.id, tempUser, function(err, user) {
+    User.findByIdAndUpdate(req.params.id, tempUser, function (err, user) {
       if (err) {
         res.send(
           "An Error occurred while handling your request, please verify your input"
@@ -177,8 +183,8 @@ exports.updateUser = function(req, res, next) {
 };
 
 /********************* DELETE A USER BY ID *********************/
-exports.deleteUser = function(req, res, next) {
-  User.findByIdAndDelete(req.params.id, function(err) {
+exports.deleteUser = function (req, res, next) {
+  User.findByIdAndDelete(req.params.id, function (err) {
     if (err) {
       res.send(
         "An Error occurred while handling your request, please verify your input"

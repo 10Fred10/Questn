@@ -1,11 +1,12 @@
 const express = require ('express');
 const router = express.Router();
 const missionController = require ('../controllers/mission.controller');
+const middleware = require('../controllers/middleware');
 
 /********************* CRUD *********************/
-router.post('/create', missionController.createMission);
-router.get('/:id', missionController.readMission);
-router.put('/:id', missionController.updateMission);
-router.delete('/:id', missionController.deleteMission);
+router.post('/create',middleware.checkToken, missionController.createMission);
+router.get('/:id',middleware.checkToken, missionController.readMission);
+router.put('/:id',middleware.checkToken, missionController.updateMission);
+router.delete('/:id',middleware.checkToken, missionController.deleteMission);
 
 module.exports = router;
