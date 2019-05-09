@@ -22,7 +22,8 @@ node start server
 
 ## API Documentation
 
-Online documentation can be found here : [openapi]("https://app.swaggerhub.com/apis/Questn/Questn/1.0.0#/")
+Online documentation can be found here : [DOC](https://app.swaggerhub.com/apis/Questn/Questn/1.0.0# "Questn Documentation") 
+
 
 --ADD GIF HERE
 
