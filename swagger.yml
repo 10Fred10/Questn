@@ -1,0 +1,649 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Questn/Questn/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: localhost:1234
+info:
+  description: |
+    This is the restful API for Questn mobile app thad rewards users after finishing missions.
+    for more informations,check.
+    [http://Questn.io](http://Questn.io)
+  version: "1.0.0"
+  title: Questn API Doc
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: contact.hammami.fredj@gmail.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+tags:
+  - name: user
+    description: Operations about user
+    externalDocs:
+      description: ""
+      url: ""
+  - name: mission
+    description: Everything about missions
+    externalDocs:
+      description: ""
+      url: ""
+  - name: reward
+    description: Manage rewards
+paths:
+  /users/register:
+    post:
+      tags:
+        - user
+      summary: "Create a new user"
+      description: |
+        *A user object usually doesn't require fixing the `balance`.
+        Blanace will be added by default `0`.
+      operationId: register
+      responses:
+        "201 Created":
+          description: returns {user} object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403 Forbidden":
+          description: "email exists !"
+        "400 Bad Request":
+          description: "invalid input !"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+        description: Created user object
+        required: true
+  /users/login:
+    post:
+      tags:
+        - user
+      summary: Logs user into the system
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:          # <!--- form field email
+                  type: string
+                password:    # <!--- form field password
+                  type: string
+              required:
+                - password
+                - email
+          application/json:
+            schema:
+             $ref: "#/components/schemas/Login"
+            
+      responses:
+        "200 Ok":
+          description: "returns JSON object with {success : true , token: JWT token}"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/logRes"
+        "400 Bad Request":
+          description: Invalid input
+        "404 Not Found":
+          description: Email not found
+        "403 Forbidden":
+          description: Password incorrect
+  "/users/{id}":
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - user
+      summary: Get user by :id
+      operationId: readUser
+      parameters:
+        - name: id
+          in: path
+          description: The user's `id` that needs to be fetched. Use `5cb208196ce0fd1fd0f26e9f` for testing.
+          required: true
+          schema:
+            type: string
+            example: 5cb208196ce0fd1fd0f26e9f
+      responses:
+        "200 Ok":
+          description: "returns {User} Object"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400 Bad Request":
+          description: ID is missing
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+        "404 Not Found":
+          description: User not found
+    put:
+      security:
+          - bearerAuth: []
+      tags:
+        - user
+      summary: Updated a user
+      description: |
+        This route should not be used to update `Email` or `Password` fields, use `/newEmail/:id` or `/newPassword/:id` instead
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: the user's ID that needs to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: fields to be changed
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/updateUser"
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                firstName:        
+                  type: string
+                lastName:        
+                  type: string
+                gender:        
+                  type: string
+                birthDate:    
+                  type: string
+                  format: date
+                balance:        
+                  type: number
+      responses:
+          "200 Ok":
+            description: User upated.
+          "405 Method Not Allowed":
+            description: error, can't update email or passord with this route
+          "404 Not Found":
+            description: error in input entered or user not found
+          "401 Unauthorized":
+            $ref: '#/components/responses/UnauthorizedError'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - user
+      summary: Delete user
+      description: This can only be done by the logged-in user.
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: the user's ID that will be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200 OK":
+          description: User deleted successfully!
+        "404":
+          description: User Not Found!
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+  "/users/newEmail/:id":
+    patch:
+      security:
+            - bearerAuth: []    
+      tags:
+        - user
+      summary: Update the email of a specific user by :id
+      operationId: updateUserEmail
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:         
+                  type: string
+                  format: email
+              required:
+              - email
+      parameters:
+        - name: id
+          in: path
+          description: The user's `id` that needs to be fetched. Use `5cb208196ce0fd1fd0f26e9f` for testing.
+          required: true
+          schema:
+            type: string
+            example: 5cb208196ce0fd1fd0f26e9f
+      responses:
+        "200 Ok":
+          description: "{userName}'s email updated"
+        "400 Bad Request":
+          description: Email field is required || Email is invalid || Email already exists || Error occured, please verify your input
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+        "404 Not Found":
+          description: User not found
+  "/users/newPassword/:id":
+    patch:
+      security:
+            - bearerAuth: []
+      tags:
+        - user
+      summary: Update the email of a specific user by :id
+      operationId: updateUserPass
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                password:         
+                  type: string
+                  minLength: 6
+                password2:
+                  type: string
+                  minLength: 6
+              required:
+                - password
+                - password2
+      parameters:
+        - name: id
+          in: path
+          description: The user's `id` that needs to be fetched. Use `5cb208196ce0fd1fd0f26e9f` for testing.
+          required: true
+          schema:
+            type: string
+            example: 5cb208196ce0fd1fd0f26e9f
+      responses:
+        "200 Ok":
+          description: "Password updated"
+
+        "400 Bad Request":
+          description: Password field is required || Confirm password field is required || Password must be at least 6 characters || Passwords must match
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+        "404 Not Found":
+          description: User not found          
+  /missions/create:
+    post:
+      security:
+          - bearerAuth: []
+      tags:
+        - mission
+      summary: Create a new mission
+      description: "Create a new Mission, user must be logged-in first"
+      operationId: createMission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/mission"
+        description: Created user object
+        required: true
+      responses:
+        "201 Created":
+          description: Mission Created successfully
+        "400 Bad Request":
+          description: "An Error occurred while handling your request, please verify your input"
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+  "/missions/{id}":
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - mission
+      summary: Get a mission by :id
+      operationId: readMission
+      parameters:
+        - name: id
+          in: path
+          description: The mission's `id` that needs to be fetched. Use `5cb0a5fdeed4a61e782816f6` for testing.
+          required: true
+          schema:
+            type: string
+            example: 5cb0a5fdeed4a61e782816f6
+      responses:
+        "200 Ok":
+          description: "returns {mission} Object"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mission"
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+        "404 Not Found":
+          description: User not found
+    put:
+      security:
+          - bearerAuth: []
+      tags:
+        - mission
+      summary: Updated a mission
+      description: Update a mission by it's `id`, user must be logged-in first
+      operationId: updateMission
+      parameters:
+        - name: id
+          in: path
+          description: the mission's ID that needs to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: fields to be changed
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/mission"
+      responses:
+          "200 Ok":
+            description: Mission udpated.
+          "401 Unauthorized":
+            $ref: '#/components/responses/UnauthorizedError'
+          "404 Not Found":
+            description: An Error occurred while handling your request, please verify your input
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - mission
+      summary: Delete a mission
+      description: This operation requires being logged-in.
+      operationId: deleteMission
+      parameters:
+        - name: id
+          in: path
+          description: the mission's ID that will be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200 OK":
+          description: Mission deleted successfully!
+        "401 Unauthorized":
+            $ref: '#/components/responses/UnauthorizedError'
+        "404":
+          description: Mission Not Found!
+          
+  /rewards/create:
+    post:
+      security:
+          - bearerAuth: []
+      tags:
+        - reward
+      summary: Create a new reward
+      description: "Create a new Reward, user must be logged-in first"
+      operationId: createReward
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/reward"
+        description: Created user object
+        required: true
+      responses:
+        "201 Created":
+          description: Reward Created successfully
+        "400 Bad Request":
+          description: "An Error occurred while handling your request, please verify your input"
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+  "/rewards/{id}":
+    get:
+      security:
+          - bearerAuth: []
+      tags:
+        - reward
+      summary: Get a reward by :id
+      description: retrieve a reward by it's `id`, user must be logged-in first.
+      operationId: readReward
+      parameters:
+        - name: id
+          in: path
+          description: The reward's `id` that needs to be fetched. Use `5cb385986da4573314c293cc` for testing.
+          required: true
+          schema:
+            type: string
+            example: 5cb385986da4573314c293cc
+      responses:
+        "200 Ok":
+          description: "returns {reward} Object"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/reward"
+        "401 Unauthorized":
+          $ref: '#/components/responses/UnauthorizedError'
+        "400 Bad Request":
+          description: An Error occurred while handling your request, please verify your input
+    put:
+      security:
+          - bearerAuth: []
+      tags:
+        - reward
+      summary: Updated a reward
+      description: Update a reward by it's `id`, user must be logged-in first
+      operationId: updateReward
+      parameters:
+        - name: id
+          in: path
+          description: the reward's ID that needs to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: fields to be changed
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/reward"
+      responses:
+          "200 Ok":
+            description: Mission udpated.
+          "401 Unauthorized":
+            $ref: '#/components/responses/UnauthorizedError'
+          "400 Bad Request":
+            description: An Error occurred while handling your request, please verify your input
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - reward
+      summary: Delete a reward
+      description: This operation requires being logged-in.
+      operationId: deleteReward
+      parameters:
+        - name: id
+          in: path
+          description: the reward's ID that will be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        "200 OK":
+          description: Reward deleted successfully!
+        "401 Unauthorized":
+            $ref: '#/components/responses/UnauthorizedError'
+        "400 Bad Request":
+          description: An Error occurred while handling your request, please verify your input
+externalDocs:
+  description: Find out more about Swagger
+  url: "http://swagger.io"
+components:
+  securitySchemes:
+      bearerAuth:            # arbitrary name for the security scheme
+        type: http
+        scheme: bearer
+        bearerFormat: JWT 
+  schemas:
+    mission:
+      type: object
+      required:
+        - title
+        - description
+        - points
+      properties:
+        title:
+          type: string
+          example: "Mission 1 - This is a great mission"
+        location:
+          type: string
+          example: "41.40338, 2.17403"
+        description:
+          type: string
+          example: "Mission 1 short Description"
+        endingDate:
+          type: string
+          format: date
+          example: 2020/05/02
+        pictures:
+          type: array
+          items:
+            type: string
+          example: ["https://www.gstatic.com/webp/gallery/4.sm.jpg","https://www.gstatic.com/webp/gallery/5.sm.jpg"]
+        points:
+          type: number
+          example: 150
+    reward:
+      type: object
+      required:
+        - title
+        - description
+        - limit
+        - price
+      properties:
+        title:
+          type: string
+          example: "Reward 1 : Free Tacos MixMax"
+        location:
+          type: string
+          example: "41.40502, 2.18903"
+        description:
+          type: string
+          example: "get a free Tacos at MixMax"
+        endingDate:
+          type: string
+          format: date
+          example: 2020/05/02
+        pictures:
+          type: array
+          items:
+            type: string
+          example: ["https://hips.hearstapps.com/del.h-cdn.co/assets/18/11/1520956952-chicken-tacos-horizontal.jpg","https://www.recipetineats.com/wp-content/uploads/2018/11/Beef-Tacos_2.jpg"]
+        price:
+          type: number
+          example: 1500
+        limit:
+          type: number
+          example: 25
+    User:
+      type: object
+      required:
+        - firstName
+        - lasttName
+        - email
+        - birthDate
+        - password
+      properties:
+        fistName:
+          type: string
+          example: Fred
+        lastName:
+          type: string
+          example: Hammami
+        email:
+          type: string
+          format: email
+          example: Fred@Questn.com
+        gender:
+          type: string
+          example: Male
+        password:
+          type: string
+          example: notThatSecurePassword123
+        birthDate:
+          type: string
+          format: date
+          example: "2015-07-21"
+        balance:
+          type: integer
+          default: 0
+    updateUser:
+      type: object
+      properties:
+        fistName:
+          type: string
+          example: Fred
+        lastName:
+          type: string
+          example: Hammami
+        gender:
+          type: string
+          example: Male
+        birthDate:
+          type: string
+          format: date
+          example: "2015-07-10"
+        balance:
+          type: integer
+          example: 1500
+    Login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: Fred@questn.com
+        password:
+          type: string
+          example: notThatSecurePassword
+    logRes:
+      type: object
+      properties:
+        email:
+          type: string
+          example: Fred@Questn.com
+        token:
+          type: string
+          example: Bearer eyJhbGXVCJ9.eyJzdWbmFtZSI6gRG9RtaV9.TJ5Ob30RMHrHDc
+    unauth:
+      type: object
+      properties:
+        success:
+          type: string
+          example: false
+        message:
+          type: string
+          example: Auth token is not supplied
+  requestBodies:
+    User:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/User"
+        application/xml:
+          schema:
+            $ref: "#/components/schemas/User"
+      description: User object that needs to be added to the DB
+      required: true
+  responses:
+    UnauthorizedError:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/unauth"

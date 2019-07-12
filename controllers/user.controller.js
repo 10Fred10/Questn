@@ -10,7 +10,7 @@ const validateNewPassword = require("../validation/password.validator");
 const validateNewEmail = require("../validation/email.validator");
 
 /********************* LOGIN *********************/
-exports.login = function (req, res) {
+exports.login = function(req, res) {
   // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
@@ -50,7 +50,7 @@ exports.login = function (req, res) {
         );
       } else {
         return res
-          .status(400)
+          .status(403)
           .json({ passwordincorrect: "Password incorrect" });
       }
     });
@@ -58,7 +58,7 @@ exports.login = function (req, res) {
 };
 
 /********************* REGISTER *********************/
-exports.register = function (req, res, next) {
+exports.register = function(req, res) {
   // Form validation
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
@@ -77,7 +77,7 @@ exports.register = function (req, res, next) {
         newUser.password = hash;
         newUser
           .save()
-          .then(user => res.json(user))
+          .then(user => res.status(201).json(user))
           .catch(err => console.log(err));
       });
     });
@@ -85,20 +85,23 @@ exports.register = function (req, res, next) {
 };
 
 /********************* READ A USER'S DETAILS BY ID *********************/
-exports.readUser = function (req, res, next) {
-  User.findById(req.params.id, function (err, user) {
-    if (err) {
-      res.send(
-        "An Error occurred while handling your request, please verify your input"
-      );
-      return next(err);
-    }
-    res.send(user);
-  });
+exports.readUser = function(req, res) {
+  try {
+    let userId = req.params.id;
+    console.log(userId);
+    User.findById(userId, function(err, user) {
+      if (err) {
+        res.status(404).send("User Not found");
+      }
+      res.status(200).send(user);
+    });
+  } catch (err) {
+    res.status(400).send("ID is missing");
+  }
 };
 
 /********************* UPDATE A PASSWORD BY ID *********************/
-exports.updateUserPass = function (req, res, next) {
+exports.updateUserPass = function(req, res) {
   // Form validation
   const { errors, isValid } = validateNewPassword(req.body);
   // Check validation
@@ -112,14 +115,11 @@ exports.updateUserPass = function (req, res, next) {
       User.findByIdAndUpdate(
         req.params.id,
         { $set: { password: hash } },
-        function (err, user) {
+        function(err, user) {
           if (err) {
-            res.send(
-              "An Error occurred while handling your request, please verify your input"
-            );
-            return next(err);
+            res.status(404).send("User not found");
           }
-          res.send("Password udpated.");
+          res.status(200).send("Password updated.");
         }
       );
     });
@@ -127,7 +127,7 @@ exports.updateUserPass = function (req, res, next) {
 };
 
 /********************* UPDATE AN EMAIL BY ID *********************/
-exports.updateUserEmail = function (req, res) {
+exports.updateUserEmail = function(req, res) {
   // Form validation
   const { errors, isValid } = validateNewEmail(req.body);
   // Check validation
@@ -137,27 +137,24 @@ exports.updateUserEmail = function (req, res) {
   let userEmail = req.body.email.toLowerCase();
   userEmail = userEmail.trim();
   //check if the email is unique
-  User.findOne({ email: userEmail }, function (err, user) {
+  User.findOne({ email: userEmail }, function(err, user) {
     if (user) {
-      res.send("Email already exists ! ");
+      res.status(400).send("Email already exists !");
     } else {
       User.findByIdAndUpdate(
         req.params.id,
         { $set: { email: userEmail } },
-        function (err, user) {
+        function(err, user) {
           if (err) {
-            res.send(
-              "An Error occurred while handling your request, please verify your input"
-            );
+            res.status(400).send("Error occured, please verify your input");
           } else {
             try {
               name = user.firstName;
-              res.send(name + "'s EMAIL udpated.");
+              res.status(200).send(name + "'s EMAIL updated.");
             } catch (err) {
-              res.send("user doesn't exist");
+              res.status(404).send("User not found");
             }
           }
-
         }
       );
     }
@@ -165,32 +162,30 @@ exports.updateUserEmail = function (req, res) {
 };
 
 /********************* UPDATE A USER BY ID *********************/
-exports.updateUser = function (req, res, next) {
+exports.updateUser = function(req, res) {
   if (req.body.email || req.body.password) {
-    res.send("error, can't update email or passord with this route");
+    res
+      .status(405)
+      .send("error, can't update email or passord with this route");
   } else {
     let tempUser = req.body;
-    User.findByIdAndUpdate(req.params.id, tempUser, function (err, user) {
+    User.findByIdAndUpdate(req.params.id, tempUser, function(err, user) {
       if (err) {
-        res.send(
-          "An Error occurred while handling your request, please verify your input"
-        );
-        return next(err);
+        res.status(404).send("error in input entered or user not found");
       }
-      res.send("User udpated.");
+      res.status(200).send("User udpated.");
     });
   }
 };
 
 /********************* DELETE A USER BY ID *********************/
-exports.deleteUser = function (req, res, next) {
-  User.findByIdAndDelete(req.params.id, function (err) {
+exports.deleteUser = function(req, res) {
+  User.findByIdAndDelete(req.params.id, function(err) {
     if (err) {
-      res.send(
-        "An Error occurred while handling your request, please verify your input"
+      res.status(404).send(
+        "User Not Found!"
       );
-      return next(err);
     }
-    res.send("user deleted successfully! ");
+    res.status(200).send("User deleted successfully!");
   });
 };
