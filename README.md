@@ -45,8 +45,9 @@
 </p>
 <br>
 
-During my engineering curriculum we had an assignment that required developping a product for **Tourism**.
+<p align="center">During my engineering curriculum we had an assignment that required developping a **Tourism** product.
 We made a mobile app that rewards users after completing missions related to visiting specific places, and this is the backend API behind the app.
+</p>
 
 ### Built With
 
