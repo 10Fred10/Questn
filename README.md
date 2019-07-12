@@ -12,8 +12,6 @@
     <img src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/Questn-logo.png" alt="Logo">
   </a>
 
-  <h3 align="center">QUESTN</h3>
-
   <p align="center">
     Restful API for a mobile app that rewards users based on mission completion.
     <br />
