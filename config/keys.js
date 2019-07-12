@@ -1,5 +1,5 @@
 module.exports = {
   mongoURI:
-    "mongodb+srv://fred:Questn1994@questn-oe0yo.mongodb.net/QuestnDB?retryWrites=true",
-  secretOrKey: "QuestnIsTheBestn"
+    "enter your Db connection link here",
+  secretOrKey: "insert a secret key here"
 };
