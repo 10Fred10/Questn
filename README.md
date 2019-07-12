@@ -45,9 +45,8 @@
 </p>
 <br>
 
-> _This is a project I made in my BioInformatics Class._
-
-A desktop application that splits a genome sequence into words of length k, then generates a `Boolean` | `Frequency` | `Occurence` | `TFIDF` matrix I use later to train a classifier.
+During my engineering curriculum we had an assignment that required developping a product for **Tourism**.
+We made a mobile app that rewards users after completing missions related to visiting specific places, and this is the backend API behind the app.
 
 ### Built With
 
