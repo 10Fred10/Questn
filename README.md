@@ -29,7 +29,7 @@
 | Table of Contents                       |
 | --------------------------------------- |
 | [About the Project](#about-the-project) |
-| [Install & Config](#Install-&-Config)   |
+| [Installation](#Installation)           |
 | [Usage](#usage)                         |
 | [Contributing](#Contributing)           |
 | [Contact](#contact)                     |
@@ -55,15 +55,15 @@ A desktop application that splits a genome sequence into words of length k, then
   <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/used.png">
 </p>
 
-- [Node.Js](https://nodejs.org/) An open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
+- [Node.Js](https://nodejs.org/) Cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
 - [Express.Js](https://expressjs.com/) : The go-to web application framework for Node.js.
 - [MongoDb](https://www.mongodb.com/) : Cross-platform document-oriented database program, classified as a NoSQL and uses JSON-like documents with schema.
 - [JWT](https://jwt.io/) : _Json Web Token_ | A JSON-based open standard for securing the API routes with verifiable claims.
 - [OpenAPI](https://swagger.io) : _(Swagger Specification)_ | , A specification for describing, producing, consuming, and visualizing RESTful web services.
 
-<!-- GETTING STARTED -->
+<!-- Installation -->
 
-## Install & Config
+## Installation
 
 1. Download or clone the repository.
 2. ADD to your Root a `config` folder with a `key.js` file containing your MongoDb URI.
@@ -75,32 +75,37 @@ module.exports = {
 };
 ```
 
-.
-├── ...
-├── config # config folder
-│ ├── keys.js # contains your secret keys and DB connexion URI
-└── ...
+Your local repo should look like this :
 
-3.  Install dependencies `npm install (with no args, in package dir)`
+```bash
+    .
+    ├── ...
+    ├── config                    # Config folder.
+    │   ├── keys.js               # contains your secret keys and DB connexion URI.
+    │
+    └── ...
+```
 
-<!-- USAGE EXAMPLES -->
+3.  Install dependencies : `npm install (with no args, in package dir)`
+
+<!-- USAGE -->
 
 ## Usage
 
 Start the server by running `nodemon start server`
 
 <p align="center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/start-server.png">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/start-server.jpg">
 </p>
 
 With the help of **POSTMAN** you can check your routes and make API calls.
 
 <p align = "center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman-logo.png">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman-logo.png" style="max-width:50%;">
 </p>
 
 <p align = "center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman.png">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman.jpg">
 </p>
 
 <!-- CONTRIBUTING -->
