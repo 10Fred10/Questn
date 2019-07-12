@@ -1,3 +1,4 @@
+//Middleware to check for JWT Tokens
 let jwt = require("jsonwebtoken");
 const config = require("../config/keys");
 
