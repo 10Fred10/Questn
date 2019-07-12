@@ -4,7 +4,6 @@ const user = require("./routes/user.route");
 const mission = require("./routes/mission.route");
 const reward = require("./routes/reward.route");
 const mongoose = require("mongoose");
-const passport = require("passport");
 
 // initialize the express server
 const app = express();
@@ -32,11 +31,6 @@ app.listen(port, () => {
 //bodyparser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Passport config
-require("./config/passport")(passport);
-// Passport middleware
-app.use(passport.initialize());
 
 // link the /users in url with the user.route
 app.use("/users", user);
