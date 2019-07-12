@@ -1,7 +1,7 @@
 openapi: 3.0.0
-# Added by API Auto Mocking Plugin
+# Questn API Documentation
 servers:
-# Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/Questn/Questn/1.0.0
   - description: SwaggerHub API Auto Mocking
@@ -73,17 +73,17 @@ paths:
             schema:
               type: object
               properties:
-                email:          # <!--- form field email
+                email: # <!--- form field email
                   type: string
-                password:    # <!--- form field password
+                password: # <!--- form field password
                   type: string
               required:
                 - password
                 - email
           application/json:
             schema:
-             $ref: "#/components/schemas/Login"
-            
+              $ref: "#/components/schemas/Login"
+
       responses:
         "200 Ok":
           description: "returns JSON object with {success : true , token: JWT token}"
@@ -100,7 +100,7 @@ paths:
   "/users/{id}":
     get:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - user
       summary: Get user by :id
@@ -123,12 +123,12 @@ paths:
         "400 Bad Request":
           description: ID is missing
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "404 Not Found":
           description: User not found
     put:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - user
       summary: Updated a user
@@ -153,26 +153,26 @@ paths:
             schema:
               type: object
               properties:
-                firstName:        
+                firstName:
                   type: string
-                lastName:        
+                lastName:
                   type: string
-                gender:        
+                gender:
                   type: string
-                birthDate:    
+                birthDate:
                   type: string
                   format: date
-                balance:        
+                balance:
                   type: number
       responses:
-          "200 Ok":
-            description: User upated.
-          "405 Method Not Allowed":
-            description: error, can't update email or passord with this route
-          "404 Not Found":
-            description: error in input entered or user not found
-          "401 Unauthorized":
-            $ref: '#/components/responses/UnauthorizedError'
+        "200 Ok":
+          description: User upated.
+        "405 Method Not Allowed":
+          description: error, can't update email or passord with this route
+        "404 Not Found":
+          description: error in input entered or user not found
+        "401 Unauthorized":
+          $ref: "#/components/responses/UnauthorizedError"
     delete:
       security:
         - bearerAuth: []
@@ -194,11 +194,11 @@ paths:
         "404":
           description: User Not Found!
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
   "/users/newEmail/:id":
     patch:
       security:
-            - bearerAuth: []    
+        - bearerAuth: []
       tags:
         - user
       summary: Update the email of a specific user by :id
@@ -210,11 +210,11 @@ paths:
             schema:
               type: object
               properties:
-                email:         
+                email:
                   type: string
                   format: email
               required:
-              - email
+                - email
       parameters:
         - name: id
           in: path
@@ -229,13 +229,13 @@ paths:
         "400 Bad Request":
           description: Email field is required || Email is invalid || Email already exists || Error occured, please verify your input
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "404 Not Found":
           description: User not found
   "/users/newPassword/:id":
     patch:
       security:
-            - bearerAuth: []
+        - bearerAuth: []
       tags:
         - user
       summary: Update the email of a specific user by :id
@@ -247,7 +247,7 @@ paths:
             schema:
               type: object
               properties:
-                password:         
+                password:
                   type: string
                   minLength: 6
                 password2:
@@ -271,13 +271,13 @@ paths:
         "400 Bad Request":
           description: Password field is required || Confirm password field is required || Password must be at least 6 characters || Passwords must match
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "404 Not Found":
-          description: User not found          
+          description: User not found
   /missions/create:
     post:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - mission
       summary: Create a new mission
@@ -296,11 +296,11 @@ paths:
         "400 Bad Request":
           description: "An Error occurred while handling your request, please verify your input"
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
   "/missions/{id}":
     get:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - mission
       summary: Get a mission by :id
@@ -321,12 +321,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/mission"
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "404 Not Found":
           description: User not found
     put:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - mission
       summary: Updated a mission
@@ -347,12 +347,12 @@ paths:
             schema:
               $ref: "#/components/schemas/mission"
       responses:
-          "200 Ok":
-            description: Mission udpated.
-          "401 Unauthorized":
-            $ref: '#/components/responses/UnauthorizedError'
-          "404 Not Found":
-            description: An Error occurred while handling your request, please verify your input
+        "200 Ok":
+          description: Mission udpated.
+        "401 Unauthorized":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404 Not Found":
+          description: An Error occurred while handling your request, please verify your input
     delete:
       security:
         - bearerAuth: []
@@ -372,14 +372,14 @@ paths:
         "200 OK":
           description: Mission deleted successfully!
         "401 Unauthorized":
-            $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "404":
           description: Mission Not Found!
-          
+
   /rewards/create:
     post:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - reward
       summary: Create a new reward
@@ -398,11 +398,11 @@ paths:
         "400 Bad Request":
           description: "An Error occurred while handling your request, please verify your input"
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
   "/rewards/{id}":
     get:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - reward
       summary: Get a reward by :id
@@ -424,12 +424,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/reward"
         "401 Unauthorized":
-          $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "400 Bad Request":
           description: An Error occurred while handling your request, please verify your input
     put:
       security:
-          - bearerAuth: []
+        - bearerAuth: []
       tags:
         - reward
       summary: Updated a reward
@@ -450,12 +450,12 @@ paths:
             schema:
               $ref: "#/components/schemas/reward"
       responses:
-          "200 Ok":
-            description: Mission udpated.
-          "401 Unauthorized":
-            $ref: '#/components/responses/UnauthorizedError'
-          "400 Bad Request":
-            description: An Error occurred while handling your request, please verify your input
+        "200 Ok":
+          description: Mission udpated.
+        "401 Unauthorized":
+          $ref: "#/components/responses/UnauthorizedError"
+        "400 Bad Request":
+          description: An Error occurred while handling your request, please verify your input
     delete:
       security:
         - bearerAuth: []
@@ -475,7 +475,7 @@ paths:
         "200 OK":
           description: Reward deleted successfully!
         "401 Unauthorized":
-            $ref: '#/components/responses/UnauthorizedError'
+          $ref: "#/components/responses/UnauthorizedError"
         "400 Bad Request":
           description: An Error occurred while handling your request, please verify your input
 externalDocs:
@@ -483,10 +483,10 @@ externalDocs:
   url: "http://swagger.io"
 components:
   securitySchemes:
-      bearerAuth:            # arbitrary name for the security scheme
-        type: http
-        scheme: bearer
-        bearerFormat: JWT 
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     mission:
       type: object
@@ -512,7 +512,11 @@ components:
           type: array
           items:
             type: string
-          example: ["https://www.gstatic.com/webp/gallery/4.sm.jpg","https://www.gstatic.com/webp/gallery/5.sm.jpg"]
+          example:
+            [
+              "https://www.gstatic.com/webp/gallery/4.sm.jpg",
+              "https://www.gstatic.com/webp/gallery/5.sm.jpg",
+            ]
         points:
           type: number
           example: 150
@@ -541,7 +545,11 @@ components:
           type: array
           items:
             type: string
-          example: ["https://hips.hearstapps.com/del.h-cdn.co/assets/18/11/1520956952-chicken-tacos-horizontal.jpg","https://www.recipetineats.com/wp-content/uploads/2018/11/Beef-Tacos_2.jpg"]
+          example:
+            [
+              "https://hips.hearstapps.com/del.h-cdn.co/assets/18/11/1520956952-chicken-tacos-horizontal.jpg",
+              "https://www.recipetineats.com/wp-content/uploads/2018/11/Beef-Tacos_2.jpg",
+            ]
         price:
           type: number
           example: 1500
