@@ -15,7 +15,7 @@
   <p align="center">
     Restful API for a mobile app that rewards users based on mission completion.
     <br />
-    <a href="https://app.swaggerhub.com/apis/Questn/Questn/1.0.0#/" target="_blank"><strong>« Documentation »</strong></a>
+    <a href="https://app.swaggerhub.com/apis/Questn/Questn/1.0.0#/" target="_blank"><strong>« DOC »</strong></a>
     <br />
     <br />
     <a href="https://github.com/10Fred10/Questn/issues" target="_blank">Report Bug</a>
@@ -29,7 +29,7 @@
 | Table of Contents                       |
 | --------------------------------------- |
 | [About the Project](#about-the-project) |
-| [Installation](#installation)           |
+| [Install & Config](#Install-&-Config)   |
 | [Usage](#usage)                         |
 | [Contributing](#Contributing)           |
 | [Contact](#contact)                     |
@@ -55,51 +55,53 @@ A desktop application that splits a genome sequence into words of length k, then
   <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/used.png">
 </p>
 
-- [PYTHON](<https://en.wikipedia.org/wiki/Python_(genus)>) A genus of constricting snakes in the Pythonidae family living in the Eastern Hemisphere.
-- [TKINTER](https://wiki.python.org/moin/TkInter) : _Graphical User Interface package_ | Creates the UI.
-- [NLTK](https://www.nltk.org/) : _Natural Language Toolkit_ | Generates the `ngrams`.
-- [NUMPY](http://www.numpy.org/) : _Package for scientific computing_ | Helps with N-dimensional array objects.
+- [Node.Js](https://nodejs.org/) An open-source, cross-platform JavaScript run-time environment that executes JavaScript code outside of a browser.
+- [Express.Js](https://expressjs.com/) : The go-to web application framework for Node.js.
+- [MongoDb](https://www.mongodb.com/) : Cross-platform document-oriented database program, classified as a NoSQL and uses JSON-like documents with schema.
+- [JWT](https://jwt.io/) : _Json Web Token_ | A JSON-based open standard for securing the API routes with verifiable claims.
+- [OpenAPI](https://swagger.io) : _(Swagger Specification)_ | , A specification for describing, producing, consuming, and visualizing RESTful web services.
 
 <!-- GETTING STARTED -->
 
-## Installation
+## Install & Config
 
-Simply download the `Motif-Extractor.exe` file and run it.
+1. Download or clone the repository.
+2. ADD to your Root a `config` folder with a `key.js` file containing your MongoDb URI.
+
+```javascript
+module.exports = {
+  mongoURI: "mongodb+srv://INSERT YOUR URI HERE",
+  secretOrKey: "ADD A SECRET KEY HERE"
+};
+```
+
+.
+├── ...
+├── config # config folder
+│ ├── keys.js # contains your secret keys and DB connexion URI
+└── ...
+
+3.  Install dependencies `npm install (with no args, in package dir)`
 
 <!-- USAGE EXAMPLES -->
 
 ## Usage
 
+Start the server by running `nodemon start server`
+
 <p align="center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/Explained.png">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/start-server.png">
 </p>
 
-Fllow the steps mentionned in the UI and you should be fine.
+With the help of **POSTMAN** you can check your routes and make API calls.
 
 <p align = "center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/pattern-gif.gif">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman-logo.png">
 </p>
 
-:bulb: **Input File :**
-
-1. Should be a `.txt` file.
-2. First couple of lines should have these points :
-   - Number of classes.
-   - Number of Sequences in each class.
-   - The beginning of a class starting from `0`.
-
-<p align="center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/seq-img.png">
+<p align = "center">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman.png">
 </p>
-
-:star: **Output File :**
-
-The output file will be a `.txt` file containing a matrix.
-
-> I could've gone for an `Excel` file here but that won't be a optimal,
-> we are dealing with **huge** sequences here, and writing an Excel file will take unnecessary time.
-
-The DataMining software used afterward accepts `.txt` files and works just fine.
 
 <!-- CONTRIBUTING -->
 
