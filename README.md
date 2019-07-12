@@ -15,7 +15,7 @@
   <p align="center">
     Restful API for a mobile app that rewards users based on mission completion.
     <br />
-    <a href="https://app.swaggerhub.com/apis/Questn/Questn/1.0.0#/" target="_blank"><strong>« DOCUMENTATION »</strong></a>
+    <a href="https://app.swaggerhub.com/apis/Questn/Questn/1.0.0#/" target="_blank"><strong>« Documentation »</strong></a>
     <br />
     <br />
     <a href="https://github.com/10Fred10/Questn/issues" target="_blank">Report Bug</a>
@@ -41,7 +41,7 @@
 ## About The Project
 
 <p align="center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/Motif-Extractor.png">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/questn-welcome.png">
 </p>
 <br>
 
