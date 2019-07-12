@@ -101,7 +101,7 @@ Start the server by running `nodemon start server`
 With the help of **POSTMAN** you can check your routes and make API calls.
 
 <p align = "center">
-  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman-logo.png" style="max-width:50%;">
+  <img  src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/postman-logo.png" width= "400px" height ="auto">
 </p>
 
 <p align = "center">
