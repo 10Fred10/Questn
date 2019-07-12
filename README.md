@@ -9,7 +9,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/10Fred10/Questn">
-    <img src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/Questn-logo.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/10Fred10/Questn/master/readme-assets/questn-logo.png" alt="Logo">
   </a>
 
   <p align="center">
