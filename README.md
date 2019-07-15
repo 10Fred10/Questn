@@ -66,7 +66,7 @@ We made a mobile app that rewards users after completing missions related to vis
 ## Installation
 
 1. Download or clone the repository.
-2. ADD to your Root a `config` folder with a `key.js` file containing your MongoDb URI.
+2. ADD to your root a `config` folder with a `key.js` file containing your MongoDb URI.
 
 ```javascript
 module.exports = {
@@ -75,7 +75,7 @@ module.exports = {
 };
 ```
 
-Your local repo should look like this :
+It should look like this :
 
 ```bash
     .
